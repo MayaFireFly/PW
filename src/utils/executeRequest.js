@@ -23,12 +23,12 @@ async function executeRequest({
       body = JSON.stringify(body);
     }
   
-    const res = await fetch(`${api.host}/${url}`, {
+    const res = await fetch(`${api.host}${url}`, {
       method,
       headers,
       body
     });
-
+    
     if (res.ok) {
       const data = await res.json();
       return {status: 'success', data, code: res.status};

@@ -14,12 +14,6 @@ export const configRoutes = [
     title: 'Main'
   },
   {
-    path: routes.auth,
-    exact: true,
-    component: Auth,
-    title: 'SignIn'
-  },
-  {
     path: routes.user,
     exact: true,
     isPrivate: true,
@@ -32,5 +26,12 @@ export const configRoutes = [
     isPrivate: true,
     component: Transactions,
     title: 'Transactions'
+  },
+  {
+    path: routes.auth,
+    exact: true,
+    component: Auth,
+    title: 'SignIn',
+    privateTitle: 'Logout'
   }
 ];
