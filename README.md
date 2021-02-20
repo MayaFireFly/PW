@@ -11,6 +11,6 @@ Start development
 <br/>
 <code>npm start</code>
 
-Start prodaction
+Production
 <br/>
 <code>npm build</code>
