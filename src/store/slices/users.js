@@ -10,15 +10,15 @@ const fetchUsers = async (dispatch, data) => {
     const response = await API.users.getFilteredUserList(data);
 
     if (response.error) {
-      dispatch(setError(response.error));
+      dispatch(setError({message: response.error}));
     } else {
       dispatch(setUsers(response.data));
     } 
 
   } catch(error) {
-    dispatch(setError(error));
+    dispatch(setError({message: error.message}));
   } finally {
-    setLoading(false);
+    dispatch(setLoading(false));
   }
 };
 
@@ -26,17 +26,16 @@ const fetchUser = async (dispatch, data) => {
   dispatch(setLoading(true));
   try {
     const response = await API.users.getUserInfo(data);
-
     if (response.error) {
-      dispatch(setError(response.error));
+      dispatch(setError({message: response.error}));
     } else {
-      dispatch(setCurrentUser(response.data));
+      dispatch(setCurrentUser(response.data.user_info_token));
     } 
 
   } catch(error) {
-    dispatch(setError(error));
+    dispatch(setError({message: error.message}));
   } finally {
-    setLoading(false);
+    dispatch(setLoading(false));
   }
 };
 
@@ -48,15 +47,15 @@ const fetchToken = async (dispatch, data, isNewUser = false) => {
       await API.auth.login(data);
 
     if (response.error) {
-      dispatch(setError(response.error));
+      dispatch(setError({message: response.error}));
     } else {
       dispatch(setToken(response.data));
     }   
 
   } catch(error) {
-    dispatch(setError(error));
+    dispatch(setError({message: error.message}));
   } finally {
-    setLoading(false);
+    dispatch(setLoading(false));
   }
 };
 

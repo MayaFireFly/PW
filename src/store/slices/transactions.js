@@ -11,15 +11,15 @@ const fetchTransactions = async (dispatch, data) => {
     const response = await API.transactions.getTransactionsList(data);
 
     if (response.error) {
-      dispatch(setError(response.error));
+      dispatch(setError({message: response.error}));
     } else {
       dispatch(setTransactions(response.data));
     } 
 
   } catch(error) {
-    dispatch(setError(error));
+    dispatch(setError({message: error.message}));
   } finally {
-    setLoading(false);
+    dispatch(setLoading(false));
   }
 };
 
@@ -29,15 +29,15 @@ const createTransaction = async (dispatch, data) => {
     const response = await API.transactions.createTransaction(data);
 
     if (response.error) {
-      dispatch(setError(response.error));
+      dispatch(setError({message: response.error}));
     } else {
       dispatch(addTransaction(response.data));
     } 
 
   } catch(error) {
-    dispatch(setError(error));
+    dispatch(setError({message: error.message}));
   } finally {
-    setLoading(false);
+    dispatch(setLoading(false));
   }
 };
 

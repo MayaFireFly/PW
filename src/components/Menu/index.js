@@ -11,7 +11,8 @@ import { configRoutes } from '../../route/config';
 
 const useStyles = makeStyles(theme => ({
   paper: {
-    width: '100%'
+    width: '100%',
+    minWidth: 400
   }
 }));
 
@@ -23,9 +24,9 @@ const Menu = () => {
     history.location.pathname :
     configRoutes[0].path);
 
-  return <Paper className = {classes.paper}>
+  return <Paper className = { classes.paper }>
     <Tabs
-      value = {value}
+      value = { value }
       onChange = {(event, newValue) => {
         setValue(newValue);
         history.push(newValue);

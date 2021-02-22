@@ -5,7 +5,9 @@ import { logout } from './users';
 
 const initialState = {
   loading: false,
-  error: null,
+  error: {
+    message: ''
+  },
   selectedTransaction: []
 };
 

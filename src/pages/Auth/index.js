@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import Wrapper from '../../components/Wrapper';
 import SignInForm from '../../components/SignInForm';
-import { CircularProgress } from '@material-ui/core';
+import { CircularProgress} from '@material-ui/core';
 
 import { logout, fetchToken } from '../../store/slices/users';
 
@@ -16,30 +16,29 @@ const Auth = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const token = useSelector(state => state.users.token);
-  const loading = useSelector(state => state.ui.loading);
+  const loading = useSelector(state => state.ui.loading);  
   const [data, setData] = useState();
 
   useEffect(() => {
-    console.log('data');
-    console.log(data);
     if (data) {
-      const isNew = data.username ? true : false;
       (async() => {
-        const res = await fetchToken(dispatch, data, isNew);
-        console.log(res);
+        await fetchToken(dispatch, data, data.username ? true : false);
       })();
     }    
   }, [data, dispatch]);
 
   useEffect(() => {
     if (token) {
-      history.push(routes.user);
-    }
-  }, [token, history]);
+      console.log(token);
+      data ? 
+        history.push(routes.user):
+        dispatch(logout());
+    }    
+  }, [token, history, data, dispatch]);
 
   return <Wrapper>
-    { loading && <CircularProgress />}
-    { !token && <SignInForm setData = {setData}/> }    
+    { !token && loading && <CircularProgress /> }
+    { !token && !loading && <SignInForm setData = {setData}/> }   
   </Wrapper>;
 };
 

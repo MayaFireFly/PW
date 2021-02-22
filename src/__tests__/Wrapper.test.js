@@ -13,7 +13,7 @@ jest.mock('react-router-dom', () => ({
 }));
 
 describe('Wrapper', () => {
-  it('render Menu without crushing', () => {
+  it('render Wrapper without crushing', () => {
     const div = document.createElement('div');
     ReactDOM.render(
       <ReduxProvider store = {store}>
