@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { makeStyles } from '@material-ui/core/styles';
-import { Modal as ModalUI, IconButton } from '@material-ui/core';
-import { CancelOutlined } from '@material-ui/icons';
+import { Modal as ModalUI, Card, CardContent, CardActions, Typography, Button } from '@material-ui/core';
 
 
 const useStyles = makeStyles(theme => ({
@@ -13,38 +12,49 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  paper: {
+  root: {
     minWidth: 300,
-    backgroundColor: theme.palette.background.paper,
-    border: '0px solid #00f',
-    borderRadius: '5px',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
     textAlign: 'center'
   },
-  icon: {
-    marginLeft: '90%' 
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold'
+  },
+  buttonsWrapper: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 }));
 
-const Modal = ({ open, onClose, title, message }) => {
+const Modal = ({ open, onOk, title, message, cancelExists = false, onCancel = function(){}, note = '' }) => {
   const classes = useStyles();
 
   return (
     <div>
       <ModalUI
         open = { open }
-        onClose = { onClose }
+        onClose = { onOk }
         className = { classes.modalWrapper }
       >
-        <div className = { classes.paper }>
-          <IconButton onClick = { onClose } className = { classes.icon }>
-            <CancelOutlined/>
-          </IconButton>
-
-          <h2>{ title }</h2>
-          <p>{ message }</p>
-        </div>
+        <Card className = { classes.root }>
+          <CardContent>
+            <Typography className = { classes.title } color = 'primary' gutterBottom>
+              { title }
+            </Typography>
+            <Typography variant = 'h5' component = 'h2'>
+              { message }
+            </Typography>
+            <Typography variant = 'subtitle2' component = 'p'>
+              { note }
+            </Typography>
+          </CardContent>
+          <CardActions className = { classes.buttonsWrapper }>
+            <Button size = 'medium' onClick = { onOk }>ok</Button>
+            {cancelExists && <Button size = 'medium' onClick = { onCancel }>cancel</Button>}
+          </CardActions>
+        </Card>
       </ModalUI>
     </div>
   );
@@ -52,9 +62,12 @@ const Modal = ({ open, onClose, title, message }) => {
 
 Modal.propTypes = {
   open: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
+  onOk: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
-  message: PropTypes.string.isRequired
+  message: PropTypes.string.isRequired,
+  cancelExists: PropTypes.bool,
+  onCancel: PropTypes.func,
+  note: PropTypes.string
 };
 
 export default Modal;

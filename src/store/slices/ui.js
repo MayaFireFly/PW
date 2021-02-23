@@ -8,7 +8,7 @@ const initialState = {
   error: {
     message: ''
   },
-  selectedTransaction: []
+  selectedTransaction: {}
 };
 
 const uiSlice = createSlice({

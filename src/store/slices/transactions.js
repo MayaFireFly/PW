@@ -13,7 +13,7 @@ const fetchTransactions = async (dispatch, data) => {
     if (response.error) {
       dispatch(setError({message: response.error}));
     } else {
-      dispatch(setTransactions(response.data));
+      dispatch(setTransactions(response.data.trans_token));
     } 
 
   } catch(error) {
@@ -31,7 +31,7 @@ const createTransaction = async (dispatch, data) => {
     if (response.error) {
       dispatch(setError({message: response.error}));
     } else {
-      dispatch(addTransaction(response.data));
+      dispatch(addTransaction(response.data.trans_token));
     } 
 
   } catch(error) {
@@ -50,10 +50,10 @@ const transactionsSlice = createSlice({
   initialState,
   reducers: {
     setTransactions(state, action) {
-      state.transactions = action.payload;
+      state.transactions = action.payload.reverse();
     },
     addTransaction(state, action) {
-      state.transactions = [ ...state.addTransaction, action.payload ];
+      state.transactions = state.transactions.unshift(action.payload);
     }
   },
   extraReducers: {

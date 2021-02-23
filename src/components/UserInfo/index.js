@@ -2,44 +2,49 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { makeStyles } from '@material-ui/core/styles';
-import { Card, CardActions, CardContent, Button, Typography } from '@material-ui/core';
+import { Button, Typography, Paper, Grid } from '@material-ui/core';
 
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    minWidth: 300,
-    textAlign: 'center'
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold'
-  },
-  pos: {
-    marginBottom: 12,
-  },
+  paper: {
+    padding: theme.spacing(2),
+    width: '100%',
+    height: '100%'
+  }
 }));
 
-const UserInfo = ({ user, gotoTransactions }) => {
+const UserInfo = ({ user, gotoPW, isFull = false }) => {
   const classes = useStyles();
 
-  return (
-    <Card className = { classes.root }>
-      <CardContent>
-        <Typography className = { classes.title } color = 'primary' gutterBottom>
-          { user.balance }
-        </Typography>
-        <Typography variant = 'h5' component = 'h2'>
-          { user.name }
-        </Typography>
-        <Typography className = { classes.pos } color = 'textSecondary'>
-          { user.email }
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button size = 'small' onClick = { gotoTransactions }>Transfer</Button>
-      </CardActions>
-    </Card>
-  );
+  return <Paper className = { classes.paper }>
+    <Grid container spacing={2}>
+      <Grid item xs = { 12 } sm container>
+        <Grid item xs container direction = 'column' spacing={2}>
+          <Grid item xs>
+            <Typography gutterBottom variant = 'subtitle1'>
+              { user.name }
+            </Typography>
+
+            {isFull && 
+            <Typography variant = 'body2' gutterBottom>
+              { user.email }
+            </Typography>
+            }            
+          </Grid>
+
+          {isFull &&
+          <Grid item>
+            <Button size = 'small' onClick = { gotoPW }>Transfer</Button>
+          </Grid>
+          }
+          
+        </Grid>
+        <Grid item>
+          <Typography variant = 'h3' color = 'primary'>${ user.balance }</Typography>
+        </Grid>
+      </Grid>
+    </Grid>
+  </Paper>;  
 };
 
 UserInfo.propTypes = {
@@ -48,7 +53,8 @@ UserInfo.propTypes = {
     email: PropTypes.string.isRequired,
     balance: PropTypes.number.isRequired
   }),
-  gotoTransactions: PropTypes.func.isRequired
+  gotoPW: PropTypes.func,
+  isFull: PropTypes.bool
 };
 
 export default UserInfo;

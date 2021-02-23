@@ -9,12 +9,10 @@ import App from './App';
 import store from './store';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <ReduxProvider store = {store}>
-        <App/>
-      </ReduxProvider>
-    </BrowserRouter>
-  </React.StrictMode>,
+  <BrowserRouter>
+    <ReduxProvider store = {store}>
+      <App/>
+    </ReduxProvider>
+  </BrowserRouter>,
   document.getElementById('root')
 );

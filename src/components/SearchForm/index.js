@@ -25,23 +25,17 @@ const useStyles = makeStyles(theme => ({
     width: '100%'
   },
   input: {
-    width: '80%'
+    width: '70%'
   },
   icon: {
-    width: '20%',
+    width: '30%',
     maxWidth: '4em'
-  },
-  linkWrapper: {
-    marginTop: theme.spacing(2)
-  },
-  errorWrapper: {
-    color: 'red'
   }
 }));
 
-const SearchForm = ({ searchUser, users, selectUser, clearUsers }) => {
+const SearchForm = ({ searchUser, users, selectUser, clearUsers, beginUser }) => {
   const classes = useStyles();
-  const [searchString, setSearchString] = useState();
+  const [searchString, setSearchString] = useState(beginUser);
   const [searchStringValid, setSearchStringValid] = useState(false);
 
   useEffect(() => {
@@ -50,13 +44,14 @@ const SearchForm = ({ searchUser, users, selectUser, clearUsers }) => {
     }
   }, [searchString]); 
 
-  const submit = (event) => {
-    event.preventDefault();
+  useEffect(() => {
     if (searchStringValid) {
-      users.find(user => user.name === searchString) ?
-        selectUser(searchString) :
-        searchUser(searchString);
+      searchUser(searchString);
     }
+  }, [searchStringValid, searchString, searchUser]);
+
+  const clear = () => {
+    clearUsers();
   };
 
   return <div className = { classes.wrapper }>
@@ -64,17 +59,22 @@ const SearchForm = ({ searchUser, users, selectUser, clearUsers }) => {
         Transfer to
     </Typography>
 
-    <form className = { classes.form } onSubmit = {submit} noValidate>
+    <form className = { classes.form } noValidate>
       <div className = { classes.row }>
 
         <Autocomplete
+          id = 'select-users'
           className = { classes.input }
           freeSolo
           disableClearable
           options = { users.map(user => user.name) }
+          onSelect = {event => {
+            selectUser(event.target.value);
+          }}
           renderInput = {params => (
             <TextField
               {...params}
+              id = 'input-user'
               label = 'Username'
               margin = 'normal'
               variant = 'outlined'
@@ -87,7 +87,7 @@ const SearchForm = ({ searchUser, users, selectUser, clearUsers }) => {
           )}
         />
 
-        <IconButton color = 'primary' onClick = { clearUsers } className = { classes.icon }>
+        <IconButton color = 'primary' onClick = { clear } className = { classes.icon }>
           <RefreshOutlined/>
         </IconButton>
       </div>   
@@ -99,7 +99,8 @@ SearchForm.propTypes = {
   searchUser: PropTypes.func.isRequired,
   selectUser: PropTypes.func.isRequired,
   clearUsers: PropTypes.func.isRequired,
-  users: PropTypes.array.isRequired
+  users: PropTypes.array.isRequired,
+  beginUser: PropTypes.string.isRequired
 };
 
 export default SearchForm;

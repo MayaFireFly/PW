@@ -44,7 +44,7 @@ const Wrapper = ({ children }) => {
   return <Container component = 'div' className = { classes.wrapper }>
     <Menu/>
     {children}
-    <Modal open = { open } onClose = { onClose } title = 'Error' message = { error.message }/>
+    <Modal open = { open } onOk = { onClose } title = 'Error' message = { error.message }/>
     <Copyright/>
   </Container>;
 };

@@ -1,4 +1,3 @@
-import { Email } from '@material-ui/icons';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -10,7 +9,8 @@ describe('UserInfo', () => {
     const div = document.createElement('div');
     ReactDOM.render(<UserInfo 
       user = {{name: 'test', email: 'test@test.com', balance: 500 }} 
-      gotoTransactions = {() => console.log('gotoTransactions')}
+      gotoPW = {() => console.log('gotoPW')}
+      isFull = {true}
     />, div);
   });       
 });

@@ -1,12 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import Wrapper from '../../components/Wrapper';
 import UserInfo from '../../components/UserInfo';
 import { CircularProgress } from '@material-ui/core';
+import TransactionsTable from '../../components/TransactionsTable';
 
 import { fetchUser } from '../../store/slices/users';
+import { fetchTransactions } from '../../store/slices/transactions';
+import { setSelectedTransaction } from '../../store/slices/ui';
 
 import { routes } from '../../constants';
 
@@ -17,9 +20,11 @@ const User = () => {
   const user = useSelector(state => state.users.currentUser);
   const token = useSelector(state => state.users.token);
   const loading = useSelector(state => state.ui.loading);
+  const transactions = useSelector(state => state.transactions.transactions);
+  const [selectTrans, setSelectTrans] = useState();
 
-  const gotoTransactions = () => {
-    history.push(routes.transactions);
+  const gotoPW = () => {
+    history.push(routes.pw);
   };
 
   useEffect(() => {
@@ -30,9 +35,34 @@ const User = () => {
     }
   }, [user, token, dispatch]);
 
-  return <Wrapper>
+  useEffect(() => {
+    if (transactions.length === 0) {
+      (async () => {
+        await fetchTransactions(dispatch, token);
+      })();
+    }    
+  }, [transactions, transactions.length, token, dispatch]);
+
+  useEffect(() => {
+    console.log('transactions');
+    console.log(transactions);
+  }, [transactions]);
+
+  useEffect(() => {
+    if (selectTrans) {
+      console.log('selectTrans');
+      console.log(selectTrans);
+      dispatch(setSelectedTransaction(selectTrans));
+      history.push(routes.pw);
+    }
+  }, [selectTrans, dispatch]);
+
+  return <Wrapper>    
+    {user && <UserInfo user = { user } gotoPW = { gotoPW } isFull = { true }/>}
     {loading && <CircularProgress/>}
-    {user && <UserInfo user = { user } gotoTransactions = { gotoTransactions }/>}
+    {transactions && transactions.length > 0 &&
+      <TransactionsTable transactions = { transactions } selectTransaction = {setSelectTrans}/>
+    }
   </Wrapper>;
 };
 

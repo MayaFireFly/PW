@@ -3,7 +3,7 @@ import { routes } from '../constants';
 import Main from '../pages/Main';
 import Auth from '../pages/Auth';
 import User from '../pages/User';
-import Transactions from '../pages/Transactions';
+import PW from '../pages/PW';
 
 
 export const configRoutes = [
@@ -21,11 +21,11 @@ export const configRoutes = [
     title: 'Info'
   },
   {
-    path: routes.transactions,
+    path: routes.pw,
     exact: true,
     isPrivate: true,
-    component: Transactions,
-    title: 'Transactions'
+    component: PW,
+    title: 'PW'
   },
   {
     path: routes.auth,
