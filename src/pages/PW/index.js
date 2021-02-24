@@ -5,10 +5,10 @@ import { useHistory } from 'react-router-dom';
 import Wrapper from '../../components/Wrapper';
 import SearchForm from '../../components/SearchForm';
 import UserInfo from '../../components/UserInfo';
-import CreateTransactionsForm from '../../components/CreateTransactionForm';
+import CreateTransactionForm from '../../components/CreateTransactionForm';
 import Modal from '../../components/Modal';
 
-import { fetchUsers, setUsers } from '../../store/slices/users';
+import { fetchUsers, setUsers, setBalance } from '../../store/slices/users';
 import { createTransaction } from '../../store/slices/transactions';
 
 import { routes } from '../../constants';
@@ -35,23 +35,12 @@ const PW = () => {
     if (search && token) {
       (async () => {
         const data = { token, filter: search };
-        console.log('data');
-        console.log(data);
         await fetchUsers(dispatch, data);
       })();
     }
   }, [search, token, dispatch]);
 
-  useEffect(() => {
-    console.log('users');
-    console.log(users);
-  }, [users]);
-
   useEffect(() => { 
-    console.log('selectedUser');
-    console.log(selectedUser);
-    console.log('amount');
-    console.log(amount);
     if (selectedUser && amount && token) {
       (async () => {
         await createTransaction(dispatch, {
@@ -60,6 +49,7 @@ const PW = () => {
           token
         });
         setOpen(true);
+        dispatch(setBalance(user.balance - amount));
       })();
     }
   }, [selectedUser, amount, dispatch, token]);
@@ -89,7 +79,7 @@ const PW = () => {
       clearUsers = { clearUsers }
       beginUser = {selectedTransaction && selectedTransaction.username ? selectedTransaction.username : ''}
     />
-    <CreateTransactionsForm 
+    <CreateTransactionForm 
       maxAmount = {user ? user.balance : 0} 
       setData = { setAmount }
       beginAmount = {selectedTransaction && selectedTransaction.amount ? Math.abs(selectedTransaction.amount) : 0}

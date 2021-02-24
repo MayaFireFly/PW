@@ -28,8 +28,9 @@ const useStyles = makeStyles(theme => ({
     width: '70%'
   },
   icon: {
-    width: '30%',
-    maxWidth: '4em'
+    width: '15%',
+    maxWidth: '4em',
+    marginLeft: '1em'
   }
 }));
 

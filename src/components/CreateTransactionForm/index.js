@@ -23,7 +23,8 @@ const useStyles = makeStyles(theme => ({
   submit: {
     width: '15%',
     height: '4em',
-    marginTop: '1em'
+    marginTop: '1em',
+    marginLeft: '1em'
   },  
   input: {
     width: '70%'
@@ -33,7 +34,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const CreateTransactionsForm = ({ setData, maxAmount, beginAmount }) => {
+const CreateTransactionForm = ({ setData, maxAmount, beginAmount }) => {
   const classes = useStyles();
 
   const [amount, setAmount] = useState(beginAmount);
@@ -42,7 +43,7 @@ const CreateTransactionsForm = ({ setData, maxAmount, beginAmount }) => {
 
   useEffect(() => {
     setError('');
-    if (amount && amount <= maxAmount) {
+    if (amount && amount <= maxAmount && amount >= 0) {
       setAmountValid(true);
     } else {
       setError(`Invalid amount, max: ${maxAmount}`);
@@ -94,10 +95,10 @@ const CreateTransactionsForm = ({ setData, maxAmount, beginAmount }) => {
   </div>;
 };
 
-CreateTransactionsForm.propTypes = {
+CreateTransactionForm.propTypes = {
   setData: PropTypes.func.isRequired,
   maxAmount: PropTypes.number.isRequired,
   beginAmount: PropTypes.number.isRequired
 };
 
-export default CreateTransactionsForm;
+export default CreateTransactionForm;

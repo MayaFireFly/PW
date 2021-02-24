@@ -41,21 +41,14 @@ const User = () => {
         await fetchTransactions(dispatch, token);
       })();
     }    
-  }, [transactions, transactions.length, token, dispatch]);
-
-  useEffect(() => {
-    console.log('transactions');
-    console.log(transactions);
-  }, [transactions]);
+  }, [token, dispatch]);
 
   useEffect(() => {
     if (selectTrans) {
-      console.log('selectTrans');
-      console.log(selectTrans);
       dispatch(setSelectedTransaction(selectTrans));
       history.push(routes.pw);
     }
-  }, [selectTrans, dispatch]);
+  }, [selectTrans, dispatch, history]);
 
   return <Wrapper>    
     {user && <UserInfo user = { user } gotoPW = { gotoPW } isFull = { true }/>}

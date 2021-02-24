@@ -40,7 +40,7 @@ const UserInfo = ({ user, gotoPW, isFull = false }) => {
           
         </Grid>
         <Grid item>
-          <Typography variant = 'h3' color = 'primary'>${ user.balance }</Typography>
+          <Typography variant = 'h3' color = 'secondary'>${ user.balance }</Typography>
         </Grid>
       </Grid>
     </Grid>

@@ -24,7 +24,11 @@ const useStyles = makeStyles(theme => ({
     width: 1,
   },
   empty: {
-    width: '2em'
+    width: '2em',
+    minWidth: 20
+  },
+  cell: {
+    minWidth: 70
   }
 }));
 
@@ -49,6 +53,7 @@ const Head = ({ headCells, order, orderBy, onRequestSort }) => {
             active = { orderBy === headCell.id }
             direction = { orderBy === headCell.id ? order : 'asc' }
             onClick = { createSortHandler(headCell.id) }
+            className = { classes.cell }
           >
             { headCell.label }
             { orderBy === headCell.id ? (

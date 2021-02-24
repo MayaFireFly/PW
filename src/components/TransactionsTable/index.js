@@ -54,7 +54,13 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(2),
   },
   table: {
-    minWidth: 750,
+    minWidth: 300,
+  },
+  chkbox: {
+    minWidth: 70
+  },
+  cell: {
+    minWidth: 20
   },
   green: {
     color: theme.palette.success.main
@@ -66,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
 
 const TransactionsTable = ({ transactions, selectTransaction }) => {
   const classes = useStyles();
-  const [order, setOrder] = useState('asc');
+  const [order, setOrder] = useState('desc');
   const [orderBy, setOrderBy] = useState('id');
   const [selected, setSelected] = useState({});
   const [page, setPage] = useState(0);
@@ -162,16 +168,17 @@ const TransactionsTable = ({ transactions, selectTransaction }) => {
                         <Checkbox
                           checked = { isItemSelected }
                           inputProps = {{ 'aria-labelledby': labelId }}
+                          className = { classes.chkbox }
                         />
                       </TableCell>
-                      <TableCell component = 'th' id = { labelId } scope = 'row' padding = 'none'>
+                      <TableCell component = 'th' id = { labelId } scope = 'row' padding = 'none' className = { classes.cell }>
                         { row.date }
                       </TableCell>
-                      <TableCell align = 'left'>{row.username}</TableCell>
-                      <TableCell align = 'right' className = {row.amount > 0 ? classes.green : classes.red}>
+                      <TableCell align = 'left' className = { classes.cell }>{row.username}</TableCell>
+                      <TableCell align = 'right' className = {row.amount > 0 ? classes.green : classes.red} style = {{minWidth:70}}>
                         {row.amount}
                       </TableCell>
-                      <TableCell align = 'right'>{row.balance}</TableCell>
+                      <TableCell align = 'right' className = { classes.cell }>{row.balance}</TableCell>
                     </TableRow>
                   );
                 })}

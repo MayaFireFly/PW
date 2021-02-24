@@ -10,8 +10,6 @@ async function executeRequest({
 }) {
   try {
     const headers = {};
-    console.log('BODY');
-    console.log(body);
     if (token) {
       headers['Authorization'] = `Bearer ${token}`;
     }
@@ -23,9 +21,7 @@ async function executeRequest({
     if (body && contentType === 'application/json') {
       body = JSON.stringify(body);
     }
-    console.log(headers);
-    console.log(method);
-    console.log(body);
+    
     const res = await fetch(`${api.host}${url}`, {
       method,
       headers,

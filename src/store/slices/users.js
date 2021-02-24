@@ -75,6 +75,9 @@ const usersSlice = createSlice({
     setCurrentUser(state, action) {
       state.currentUser = action.payload;
     },
+    setBalance(state, action) {
+      state.currentUser.balance = action.payload;
+    },
     setToken(state, action) {
       state.token = action.payload.id_token;
     },
@@ -84,7 +87,7 @@ const usersSlice = createSlice({
   }
 });
 
-export const { setUsers, setCurrentUser, setToken, logout } = usersSlice.actions;
+export const { setUsers, setCurrentUser, setToken, logout, setBalance } = usersSlice.actions;
 export { fetchUsers, fetchUser, fetchToken };
 
 export default usersSlice.reducer;

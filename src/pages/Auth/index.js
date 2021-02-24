@@ -29,7 +29,6 @@ const Auth = () => {
 
   useEffect(() => {
     if (token) {
-      console.log(token);
       data ? 
         history.push(routes.user):
         dispatch(logout());

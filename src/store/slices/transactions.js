@@ -53,7 +53,7 @@ const transactionsSlice = createSlice({
       state.transactions = action.payload.reverse();
     },
     addTransaction(state, action) {
-      state.transactions = state.transactions.unshift(action.payload);
+      state.transactions = [ action.payload, ...state.transactions];
     }
   },
   extraReducers: {

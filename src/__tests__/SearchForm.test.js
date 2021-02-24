@@ -18,7 +18,13 @@ describe('SearchForm', () => {
   it('render SearchForm without crushing', () => {
     const div = document.createElement('div');    
     ReactDOM.render(
-      <SearchForm searchUser = { mockFunc } selectUser = { mockFunc } clearUsers = { mockFunc } users = { users }/>, 
+      <SearchForm 
+        searchUser = { mockFunc } 
+        selectUser = { mockFunc } 
+        clearUsers = { mockFunc } 
+        users = { users }
+        beginUser = { '' }
+      />, 
       div
     );
   });       
