@@ -31,6 +31,9 @@ const useStyles = makeStyles(theme => ({
     width: '15%',
     maxWidth: '4em',
     marginLeft: '1em'
+  },
+  error: {
+    color: 'red'
   }
 }));
 
@@ -38,6 +41,7 @@ const SearchForm = ({ searchUser, users, selectUser, clearUsers, beginUser }) =>
   const classes = useStyles();
   const [searchString, setSearchString] = useState(beginUser);
   const [searchStringValid, setSearchStringValid] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     if (regex.name.test(searchString)) {
@@ -70,7 +74,13 @@ const SearchForm = ({ searchUser, users, selectUser, clearUsers, beginUser }) =>
           disableClearable
           options = { users.map(user => user.name) }
           onSelect = {event => {
-            selectUser(event.target.value);
+            if (users.map(user => user.name).includes(event.target.value)) {
+              setErrorMessage('');
+              selectUser(event.target.value);
+            } else {
+              selectUser();
+              setErrorMessage('You are selecting a user not from enum');
+            }            
           }}
           renderInput = {params => (
             <TextField
@@ -79,7 +89,7 @@ const SearchForm = ({ searchUser, users, selectUser, clearUsers, beginUser }) =>
               label = 'Username'
               margin = 'normal'
               variant = 'outlined'
-              error = { !searchStringValid }
+              error = { !searchStringValid && errorMessage.length > 0 }
               InputProps={{ ...params.InputProps, type: 'search' }}
               onChange = {event => {
                 setSearchString(event.target.value);
@@ -91,7 +101,10 @@ const SearchForm = ({ searchUser, users, selectUser, clearUsers, beginUser }) =>
         <IconButton color = 'primary' onClick = { clear } className = { classes.icon }>
           <RefreshOutlined/>
         </IconButton>
-      </div>   
+      </div> 
+      <div className = { classes.row }>
+        <p className = { classes.error }>{errorMessage}</p>
+      </div>  
     </form>
   </div>;
 };

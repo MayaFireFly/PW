@@ -8,7 +8,7 @@ import { CircularProgress } from '@material-ui/core';
 import TransactionsTable from '../../components/TransactionsTable';
 
 import { fetchUser } from '../../store/slices/users';
-import { fetchTransactions } from '../../store/slices/transactions';
+import { fetchTransactionsThunk } from '../../store/slices/transactions';
 import { setSelectedTransaction } from '../../store/slices/ui';
 
 import { routes } from '../../constants';
@@ -19,7 +19,8 @@ const User = () => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.users.currentUser);
   const token = useSelector(state => state.users.token);
-  const loading = useSelector(state => state.ui.loading);
+  const loading = useSelector(state => state.ui.loading); 
+  const loadingTransactions = useSelector(state => state.transactions.loading);
   const transactions = useSelector(state => state.transactions.transactions);
   const [selectTrans, setSelectTrans] = useState();
 
@@ -36,12 +37,8 @@ const User = () => {
   }, [user, token, dispatch]);
 
   useEffect(() => {
-    if (transactions.length === 0) {
-      (async () => {
-        await fetchTransactions(dispatch, token);
-      })();
-    }    
-  }, [token, dispatch]);
+    dispatch(fetchTransactionsThunk(token));    
+  }, []);
 
   useEffect(() => {
     if (selectTrans) {
@@ -52,7 +49,7 @@ const User = () => {
 
   return <Wrapper>    
     {user && <UserInfo user = { user } gotoPW = { gotoPW } isFull = { true }/>}
-    {loading && <CircularProgress/>}
+    {(loading || loadingTransactions) && <CircularProgress/>}
     {transactions && transactions.length > 0 &&
       <TransactionsTable transactions = { transactions } selectTransaction = {setSelectTrans}/>
     }

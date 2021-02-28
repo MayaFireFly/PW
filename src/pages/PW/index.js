@@ -9,7 +9,7 @@ import CreateTransactionForm from '../../components/CreateTransactionForm';
 import Modal from '../../components/Modal';
 
 import { fetchUsers, setUsers, setBalance } from '../../store/slices/users';
-import { createTransaction } from '../../store/slices/transactions';
+import { fetchTransactionsThunk, createTransactionsThunk } from '../../store/slices/transactions';
 
 import { routes } from '../../constants';
 
@@ -42,15 +42,14 @@ const PW = () => {
 
   useEffect(() => { 
     if (selectedUser && amount && token) {
-      (async () => {
-        await createTransaction(dispatch, {
-          name: selectedUser,
-          amount,
-          token
-        });
-        setOpen(true);
-        dispatch(setBalance(user.balance - amount));
-      })();
+      dispatch(createTransactionsThunk({
+        name: selectedUser,
+        amount,
+        token
+      }));
+      setOpen(true);
+      dispatch(setBalance(user.balance - amount));
+      dispatch(fetchTransactionsThunk(token));
     }
   }, [selectedUser, amount, dispatch, token]);
 
@@ -79,11 +78,13 @@ const PW = () => {
       clearUsers = { clearUsers }
       beginUser = {selectedTransaction && selectedTransaction.username ? selectedTransaction.username : ''}
     />
+    {selectedUser &&
     <CreateTransactionForm 
       maxAmount = {user ? user.balance : 0} 
       setData = { setAmount }
       beginAmount = {selectedTransaction && selectedTransaction.amount ? Math.abs(selectedTransaction.amount) : 0}
     />
+    }    
   </Wrapper>;
 };
 
