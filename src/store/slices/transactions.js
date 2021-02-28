@@ -11,7 +11,7 @@ const fetchTransactionsThunk = createAsyncThunk(
       const response = await API.transactions.getTransactionsList(data);
       return response;
     } catch(error) {
-      return {message: error.message};
+      return {error: error.message};
     }    
   }
 );
@@ -23,7 +23,7 @@ const createTransactionsThunk = createAsyncThunk(
       const response = await API.transactions.createTransaction(data);
       return response;
     } catch(error) {
-      return {message: error.message};
+      return {error: error.message};
     }    
   }
 );
